@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{db}/documents {
+
+    // A teacher is a verified Google account on the staff domain.
+    function isTeacher() {
+      return request.auth != null
+        && request.auth.token.email != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.matches('.*@ddsb[.]ca$');
+    }
+    function ownsClass(code) {
+      return isTeacher()
+        && get(/databases/$(db)/documents/classes/$(code)).data.teacherUid == request.auth.uid;
+    }
+
+    match /classes/{code} {
+      // Anyone signed in (students sign in anonymously) can look up one class by its code.
+      allow get: if request.auth != null;
+      // Teachers can list, change and delete only their own classes.
+      allow list: if isTeacher() && resource.data.teacherUid == request.auth.uid;
+      allow create: if isTeacher() && request.resource.data.teacherUid == request.auth.uid;
+      allow update, delete: if isTeacher() && resource.data.teacherUid == request.auth.uid;
+
+      match /students/{sid} {
+        // Students need to see the class list to pick their name, and save their own progress.
+        allow read: if request.auth != null;
+        allow create, update: if request.auth != null
+          && exists(/databases/$(db)/documents/classes/$(code))
+          && request.resource.data.name is string
+          && request.resource.data.name.size() <= 40;
+        allow delete: if ownsClass(code);
+      }
+    }
+  }
+}
