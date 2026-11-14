@@ -28,19 +28,14 @@ To allow another staff domain, add it to `teacherDomains` in `CONFIG` and to the
 
 Each quest is a side-scrolling run. The knight runs through the realm; the player jumps (Space, or tap) to grab coins and bop gloomlings. Every few seconds a Gloom Gate blocks the path, and the knight stops until the player solves its challenge, so there is never a clock on the math. First-try answers charge the shield; three charges set off a Shield Dash in the next stretch (fast, invincible, coins fly to you). Clearing every gate reaches the creature at the end of the run, and the shield beam frees it.
 
-## Optional art pack (Stable Diffusion or any other source)
+## Art, sound and music (the `assets` folder)
 
-The scenery is drawn in code. To swap in painted backgrounds, create a folder named `art` beside `index.html` and add any of these files; the game picks them up automatically and falls back to the built-in scenery for any that are missing.
+The game now needs the `assets` folder beside `index.html`. It holds the painted knight, rivals, helpers, items and backgrounds (WebP), the sound effects, the narrator's voice lines and the music (MP3), about 4.7 MB in total. If the folder is missing, the game shows a message instead of the run.
 
-| File | Realm | Prompt idea |
-|---|---|---|
-| `art/bg-B.jpg` | Number Forest | storybook enchanted forest, side-scrolling game background, soft painted style, bright daylight, no characters, no text |
-| `art/bg-C.jpg` | Pattern Peaks | storybook purple mountain range with snowy peaks, side-scrolling game background, painted style, no characters, no text |
-| `art/bg-E.jpg` | Shape Citadel | storybook stone castle walls and towers with blue banners, side-scrolling game background, painted style, no characters, no text |
-| `art/bg-D.jpg` | Data Docks | storybook harbour with sailing ships and calm sea, side-scrolling game background, painted style, no characters, no text |
-| `art/bg-F.jpg` | Golden Market | storybook medieval market with striped tents at golden hour, side-scrolling game background, painted style, no characters, no text |
-
-Use wide images (around 2048 x 512). They tile sideways, so images that are seamless left to right look best; keep the bottom edge plain because the ground is drawn over it.
+- **Realms and rivals:** Number Meadow (Juggles the Gnome), Algebra Mountains (Puzzle the Yeti), Geometry Castle (Blocko the Golem), Data Dragon's Lair (Data the Dragon) and Fortune Forest (Crumble the Troll). The names are set in `INFO` and `WORLD` inside `index.html`.
+- **Knight colours:** each knight pose has a mask file (`k-<pose>-m.png`). Red in the mask marks the plume; green marks the cape, tunic and shield. The Armoury colours are painted on through the mask, so a new pose needs both files.
+- **Sound:** the Sound button mutes everything. Browsers only allow sound after the first tap or key press, so music starts then.
+- **Replacing a file:** keep the same file name and roughly the same size, and the game picks it up.
 
 ## How it works
 
