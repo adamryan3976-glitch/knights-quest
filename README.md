@@ -17,6 +17,10 @@ Teachers then open the site, choose "I'm a Teacher", sign in with their @ddsb.ca
 
 To allow another staff domain, add it to `teacherDomains` in `CONFIG` and to the `matches(...)` line in `firestore.rules`.
 
+## Test play (no data stored)
+
+The home screen has a "Just try the game" button. It starts a guest knight at the grade you pick, either from Knight Training or straight in the realms. A guest never joins a class, is never written to Firebase or to the browser's storage, and never appears on a teacher dashboard. The progress is lost on exit, reload or closing the tab.
+
 ## Things to check before using it with students
 
 - **Board approval.** The game stores a first name, a secret crest and math progress for each student in your Firebase project. Check DDSB's process for approving digital tools that hold student information before a full roll-out.
